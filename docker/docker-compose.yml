@@ -1,0 +1,21 @@
+version: '3.1'
+
+services:
+
+  db:
+    image: postgres
+    platform: linux/amd64
+    restart: always
+    environment:
+      POSTGRES_PASSWORD: just-password
+      POSTGRES_DB: products
+    ports:
+      - "5432:5432"
+    volumes:
+      - db:/var/lib/postgresql/data
+      - ../schema/database/001-db-init.sql:/docker-entrypoint-initdb.d/001-db-init.sql
+      - ../schema/database/002-test-db-init.sql:/docker-entrypoint-initdb.d/002-test-db-init.sql
+      - ../schema/database/003-sample-data-import.sql:/docker-entrypoint-initdb.d/003-sample-data-import.sql
+
+volumes:
+  db:
